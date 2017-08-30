@@ -1,0 +1,93 @@
+<include file="Public:header" />
+
+<div class="wrapper wrapper-content animated fadeInRight" style="min-height: 800px;">
+	<div class="row">
+		<div class="ibox">
+			<div class="ibox-title ibox-title-padding">
+				<h5 class="line-h34">添加微信密钥</h5>
+			</div>
+			<div class="ibox-content">
+				<section class="content">
+					<div class="box box-success" style="width:500px;">
+						<div role="form">
+							<div class="box-body">
+								<div class="form-group">
+									<label for="name">名称</label>
+									<input type="text" class="form-control" id="name" />
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="form-group">
+									<label for="appid">APPID</label>
+									<input type="text" class="form-control" id="appid" />
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="form-group">
+									<label for="secretkey">SecretKey</label>
+									<input type="text" class="form-control" id="secretkey" />
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="form-group">
+									<label for="token">Token</label>
+									<input type="text" class="form-control" id="token" />
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="form-group">
+									<label for="status">状态</label>
+									<select id="status" class="form-control select2 Infinity" style="width: 100%;">
+										<option value="1">显示</option>
+										<option value="0">不显示</option>
+									</select>
+								</div>
+							</div>
+							<div class="box-footer">
+								<button type="submit" id="submit" class="btn btn-primary">提交</button>
+							</div>
+						</div>
+					</div>
+					<input type="hidden" id="posturl" value="{:U('WechatKey/add')}"/>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>
+	
+	<script>
+	$('#submit').click(function(){
+		var name = $('#name').val().replace(/(^\s*|\s*$)/g, '');
+		var appid = $('#appid').val().replace(/(^\s*|\s*$)/g, '');
+		var secretkey = $('#secretkey').val().replace(/(^\s*|\s*$)/g, '');
+		var token = $('#token').val().replace(/(^\s*|\s*$)/g, '');
+		var status = $('#status').val().replace(/(^\s*|\s*$)/g, '');
+		
+		if(name == ''){
+			$('.bs-example-modal-sm .modal-body').text('请填写名称');
+			$('.bs-example-modal-sm').modal();
+			return false;
+		} else if(appid == ''){
+			$('.bs-example-modal-sm .modal-body').text('请填写appid');
+			$('.bs-example-modal-sm').modal();
+			return false;
+		} else if(secretkey == ''){
+			$('.bs-example-modal-sm .modal-body').text('请填写secretkey');
+			$('.bs-example-modal-sm').modal();
+			return false;
+		} 
+		
+		var posturl = $('#posturl').val();
+		$.post(posturl, {'name':name, 'appid':appid, 'secretkey':secretkey, 'token':token , 'status':status }, function(data){
+			$('.bs-example-modal-sm .modal-body').text(data.msg);
+			$('.bs-example-modal-sm').modal();
+			if(data.result == true){
+				$('.bs-example-modal-sm').on('hidden.bs.modal', function (e) {
+					location.reload();
+				})
+			}
+		});
+	});
+	</script>
+
+<include file="Public:footer" />

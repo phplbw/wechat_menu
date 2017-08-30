@@ -1,0 +1,85 @@
+<include file="Public:header" />
+
+<div class="wrapper wrapper-content animated fadeInRight" style="min-height: 800px;">
+    <div class="row">
+        <div class="ibox-title ibox-title-padding">
+            <h5 class="line-h34">绑定权限</h5>
+            <div class="ibox-tools">
+                <a type="button" class="btn btn-w-m btn-primary" href="javascript:setrole();">保存</a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <section class="content">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="width:40px;"></th>
+                            <th style="width: 40px">ID</th>
+                            <th>菜单名称</th>
+                            <th>控制器</th>
+                            <th>操作名</th>
+                        </tr>
+                        <volist name="menu_list" id="val">
+                        <tr>
+                            <td><input type="checkbox" name="checkbox" class="minimal" id="menu{$val['id']}" value="{$val['id']}"/></td>
+                            <td>{$val.id}</td>
+                            <td>{$val.name}</td>
+                            <td>{$val.mod}</td>
+                            <td>{$val.act}</td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                </table>
+                <input type="hidden" id="posturl" value="{:U('SysRole/bindMenu')}"/>
+                <input type="hidden" id="roleid" value="{$role_id}"/>
+            </section>
+            <script>
+                <?php 
+                $arr = "[";
+                foreach($role_menu as $k=>$v){
+                    $arr .= $v['menu_id'].',';
+                }
+                $arr .= "]";
+                ?>
+                var arr = new Array();
+                arr = <?php echo $arr?>;
+                for(var i=0;i<arr.length;i++)
+                {
+                    $('#menu'+arr[i]).prop('checked',true);
+                }
+
+                function setrole()
+                {
+                    var ischeck = '';
+                    var arr = '';
+                    $("input[name='checkbox']").each(function(){
+                        if($(this).prop('checked') == true)
+                        {
+                            arr += $(this).val()+',';
+                            ischeck = true;
+                        }
+                    });
+                    if(!ischeck)
+                    {
+                        alert('没有选中任何数据，至少选择一个权限，如果不需要此权限，可以删除，删除权限前注意是否已经绑定了管理员');
+                        return;
+                    }
+                    var posturl = $('#posturl').val();
+                    var roleid = $('#roleid').val();
+                    
+                    $.post(posturl, {'ids' : arr, 'roleid' : roleid }, function(data){
+                            $('.bs-example-modal-sm .modal-body').text(data.msg);
+                            $('.bs-example-modal-sm').modal();
+                            if(data.result == true){
+                                $('.bs-example-modal-sm').on('hidden.bs.modal', function (e) {
+                                    location.reload();
+                                });
+                            }
+                        });
+                }
+            </script>
+        </div>
+    </div>
+</div>
+
+<include file="Public:footer" />

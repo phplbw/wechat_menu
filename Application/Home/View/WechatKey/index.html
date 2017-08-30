@@ -1,0 +1,73 @@
+<include file="Public:header" />
+
+	<div class="wrapper wrapper-content animated fadeInRight" style="min-height: 800px;">
+		<div class="row">
+			<div class="ibox">
+				<div class="ibox-title ibox-title-padding">
+					<h5 class="line-h34">微信密钥管理</h5>
+					<div class="ibox-tools">
+						<a type="button" class="btn btn-w-m btn-primary" href="{:U('WechatKey/add')}" target="_blank">添加</a>
+					</div>
+				</div>
+				<div class="ibox-content">
+					<section class="content">
+						<div class="box">
+							<div class="box-body">
+								<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>名称</th>
+										<th>APPID</th>
+										<th>SecretKey</th>
+										<th>Token</th>
+										<th>状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<volist name="list" id="val">
+									<tr id="tr_{$val.id}">
+										<td>{$val.id}</td>
+										<td>{$val.name}</td>
+										<td>{$val.appid}</td>
+										<td>******</td>
+										<td>{$val.token}</td>
+										<td>{$val.status}</td>
+										<td>
+											<a href="{:U('WechatKey/edit',array('id'=>$val[id]))}" target="_blank">编辑</a>&nbsp;&nbsp;
+											<a href="javascript:delMsg({$val['id']});">删除</a>
+										</td>
+									</tr>
+									</volist>
+								</tbody>
+								</table>
+							</div>
+							<div class="box-footer clearfix">
+								{$page}
+							</div>
+						</div>
+						<input type="hidden" id="posturl" value="{:U('WechatKey/del')}"/>
+					</section>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function delMsg(id){
+			if(confirm('确定删除?')){
+				var posturl = $('#posturl').val();
+				$.post(posturl, {'id' : id}, function(data){
+					$('.bs-example-modal-sm .modal-body').text(data.msg);
+					$('.bs-example-modal-sm').modal();
+					if(data.result == true){
+						$('.bs-example-modal-sm').on('hidden.bs.modal', function (e) {
+							location.reload();
+						});
+					}
+				});
+			}
+		}
+	</script>
+	
+<include file="Public:footer" />

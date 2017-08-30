@@ -1,0 +1,67 @@
+<include file="Public:header" />
+
+<div class="wrapper wrapper-content animated fadeInRight" style="min-height: 800px;">
+    <div class="row">
+        <div class="ibox-title ibox-title-padding">
+            <h5 class="line-h34">编辑管理员</h5>
+        </div>
+        <div class="ibox-content">
+            <section class="content" style="width:500px;">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="username">用户名</label>
+                        <input type="text" class="form-control" id="username" value="{$info.uname}"/>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" class="form-control" id="password" placeholder="为空则不修改密码"/>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="roleid">权限组</label>
+                        <select id="roleid" class="form-control select2 Infinity" style="width: 100%;">
+                            <volist name="role_list" id="val">
+                            <option value="{$val.id}" <if condition="$val.id eq $info['role_id']">selected</if>>{$val.name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="submit" id="submit" class="btn btn-primary">提交</button>
+                </div>
+                <input type="hidden" id="userid" value="{$info.id}"/>
+                <input type="hidden" id="posturl" value="{:U('SysAdmin/editUser')}"/>
+            </section>
+            <script>
+                $('#submit').click(function(){
+                    var username = $('#username').val();
+                    var password = $('#password').val();
+                    var roleid = $('#roleid').val();
+                    var id = $('#userid').val();
+                    
+                    var posturl = $('#posturl').val();
+                    if(username == ''){
+                        $('.bs-example-modal-sm .modal-body').text('请填写用户名称');
+                        $('.bs-example-modal-sm').modal();
+                        return false;
+                    }
+                    
+                    $.post(posturl, {'id' : id, 'username':username, 'password':password, 'roleid':roleid}, function(data){
+                        $('.bs-example-modal-sm .modal-body').text(data.msg);
+                        $('.bs-example-modal-sm').modal();
+                        if(data.result == true){
+                            $('.bs-example-modal-sm').on('hidden.bs.modal', function (e) {
+                                location.reload();
+                            })
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+<include file="Public:footer" />

@@ -1,0 +1,112 @@
+<include file="Public:header" />
+
+<div class="wrapper wrapper-content animated fadeInRight" style="min-height: 800px;">
+    <div class="row">
+        <div class="ibox-title ibox-title-padding">
+            <h5 class="line-h34">编辑菜单</h5>
+        </div>
+        <div class="ibox-content">
+            <section class="content" style="width:500px;">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="menuname">菜单名</label>
+                        <input type="text" class="form-control" id="menuname" value="{$info.name}"/>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="pid">父级菜单</label>
+                        <select id="pid" class="form-control select2" style="width: 100%;">
+                            <volist name="menu_list" id="val">
+                                <option value="{$val.id}" level="{$val.level}">{$val.name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="mod">控制器</label>
+                        <input type="text" class="form-control" id="mod" value="{$info.mod}"/>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="act">操作名</label>
+                        <input type="text" class="form-control" id="act" value="{$info.act}"/>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="display">是否显示</label>
+                        <select id="display" class="form-control select2 Infinity" style="width: 100%;">
+                            <option value="0" >否</option>
+                            <option value="1" selected>是</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="sort">排序</label>
+                        <input type="text" class="form-control" id="sort" value="{$info.sort}"/>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="is_sys">是否是系统菜单</label>
+                        <select id="is_sys" class="form-control select2 Infinity" style="width: 100%;">
+                            <option value="0" >否</option>
+                            <option value="1" >是</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="submit" id="submit" class="btn btn-primary">提交</button>
+                </div>
+                <input type="hidden" id="menuid" value="{$info.id}"/>
+                <input type="hidden" id="posturl" value="{:U('SysMenu/editMenu')}"/>
+            </section>
+
+            <script>
+            $('#pid').val({$info.pid});
+            $('#display').val({$info.display});
+            $('#is_sys').val({$info.is_sys});
+            
+            $('#submit').click(function(){
+                var menuname = $('#menuname').val();
+                var pid = $('#pid').val();
+                var level = $('#pid').find("option:selected").attr('level');
+                var mod = $('#mod').val();
+                var act = $('#act').val();
+                var display = $('#display').val();
+                var sort = $('#sort').val();
+                var is_sys = $('#is_sys').val();
+                if(menuname == ''){
+                    $('.bs-example-modal-sm .modal-body').text('菜单名不能为空');
+                    $('.bs-example-modal-sm').modal();
+                    return false;
+                } else if(mod == ''){
+                    $('.bs-example-modal-sm .modal-body').text('控制器不能为空');
+                    $('.bs-example-modal-sm').modal();
+                } else if(act == ''){
+                    $('.bs-example-modal-sm .modal-body').text('操作名不能为空');
+                    $('.bs-example-modal-sm').modal();
+                }
+                var posturl = $('#posturl').val();
+                var menuid = $('#menuid').val();
+                
+                $.post(posturl, {'id': menuid, 'menuname' : menuname, 'pid':pid, 'level':level, 'mod':mod, 'act':act, 'display':display, 'sort':sort, 'is_sys':is_sys}, function(data){
+                    $('.bs-example-modal-sm .modal-body').text(data.msg);
+                    $('.bs-example-modal-sm').modal();
+                    if(data.result == true){
+                        $('.bs-example-modal-sm').on('hidden.bs.modal', function (e) {
+                            location.reload();
+                        })
+                    }
+                });
+            });
+            </script>
+        </div>
+    </div>
+</div>
+
+<include file="Public:footer" />

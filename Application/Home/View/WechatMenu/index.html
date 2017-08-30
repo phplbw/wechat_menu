@@ -1,0 +1,719 @@
+<include file="Public:header" />
+
+<link href="__PUBLIC__/libs/selectordie/selectordie.css" rel="stylesheet" type="text/css"/>
+<script src="__PUBLIC__/libs/selectordie/selectordie.min.js" type="text/javascript"></script>
+	
+	<div class="wrapper wrapper-content animated fadeInRight" style="min-height: 800px;">
+		<div class="row">
+			<div class="ibox">
+				<div class="ibox-title ibox-title-padding">
+					<h5 class="line-h34">菜单管理</h5>
+					<div class="pull-right">
+						<select id="keys" name="keys">
+							<volist name="keylist" id="val">
+							<option value="{$val.id}">{$val.name}</option>
+							</volist>
+						</select>
+					</div>
+				</div>
+				<div class="ibox-content">
+					<section class="content">
+						<div class="box">
+							<div class="box-body">
+								<p class="menu_setting_tips">可创建最多3个一级菜单，每个一级菜单下可创建最多5个二级菜单。</p>
+								<div class="weixin_table">
+									<div class="inner_side">
+										<div class="bd">
+											<div class="menu_manage">
+												<div class="sub_title_bar light">
+													<h4>菜单管理</h4>
+													<div class="opr_wrp">
+														<i class="fa fa-fw fa-plus addBt" id="addBt"></i>
+														<i class="fa fa-fw fa-bars orderBt" id="orderBt"></i>
+														<a href="javascript:void(0);" id="finishBt" class="opr_meta btn btn_primary btn_sorting" style="display: none;">完成</a>
+														<a href="javascript:void(0);" id="cancelBt" class="opr_meta btn btn_default btn_sorting" style="display: none;">取消</a>
+													</div>
+												</div>
+
+												<div class="inner_menu_box" id="menuList">
+													<div class="menu_mask"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<div class="inner_main">
+										<div class="bd">
+											<div class="menu_create_box_preview"></div>
+											<div class="action_setting">
+												<div class="sub_title_bar light js_second_title_bar" id="js_second_title_bar" style="display: none;">
+													<h4>一级菜单：</h4>
+													<a id="jsDelBt" class="btn_ctrl" href="javascript:void(0);">删除</a>
+													<a id="jsChangeBt" class="btn_ctrl" href="javascript:void(0);">重命名</a>
+												</div>
+												
+												<div class="action_content js_reseting" style="display:none;">
+													<div class="action_loading_wrp">
+														<i class="icon_loading_small white"></i>
+														<p class="tips_global">
+														菜单重置中，请稍候
+														</p>
+													</div>
+												</div>
+
+												<div class="action_content init default jsMain" id="none" style="display: block;">
+													<p class="action_tips">你可以点击左侧菜单或添加一个新菜单，然后设置菜单内容</p>
+													<a href="javascript:void(0);" id="initialCreate" class="initialCreate" style="display: none;"><i class="icon_menu_action add"></i><strong>添加二级菜单</strong></a>
+												</div>
+												
+												<div class="action_content init jsMain" style="display: none;" id="index">
+													<p class="action_tips"></p>
+													<a href="javascript:void(0);" id="initialCreate" class="initialCreate" style="display: inline-block;"><i class="icon_menu_action add"></i><strong>添加二级菜单</strong></a>
+													<a href="javascript:void(0);" id="sendMsg"><i class="icon_menu_action send"></i><strong>发送信息</strong></a>
+													<a href="javascript:void(0);" id="goPage"><i class="icon_menu_action url"></i><strong>跳转到网页</strong></a>
+												</div>
+												
+												<div class="action_content url jsMain" id="url" style="display: none;">
+													<form action="" id="urlForm" onsubmit="return false;">
+														<p class="action_tips" id="urlTips">订阅者点击该子菜单会跳到以下链接，<a class="resetAction" href="javascript:void(0);">重设菜单内容</a></p>
+														<div class="frm_control_group">
+															<label for="" class="frm_label">页面地址</label>
+															<div class="frm_controls">
+																<span class="frm_input_box">
+																	<input type="text" class="frm_input form-control" id="urlText" name="urlText">
+																</span>
+																<p class="frm_msg fail" style="display: none;" id="urlFail">
+																	<span for="urlText" class="frm_msg_content" style="display: inline;">请输入正确的URL</span>
+																</p>
+															</div>
+														</div>
+													</form>
+												</div>
+												
+												<div class="action_content sended jsMain" id="view" style="display: none;">
+													<p class="action_tips"></p>
+													<div class="msg_wrp" id="viewDiv"></div>
+													<div class="btn_wrp">
+														<a href="javascript:void(0);" class="btn btn-block btn-default" id="changeBt" style="width:100px;">修改</a>
+													</div>
+												</div>
+												
+												<div class="action_content send jsMain" id="edit" style="display: none;">
+													<p class="action_tips">订阅者点击该子菜单会收到该key对应的消息(如不清楚，请勿随意更改key的内容)，<a class="resetAction" href="javascript:void(0);">重设菜单内容</a></p>
+													<div class="msg_sender small" contenteditable="true" id="editDiv"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="inner_container_box_ft" id="menuStatus" style="">
+									<p class="menu_msg mini_tips weak_text" style="" id="menustatus_2">编辑中：点击下方“保存并发布”，才能更新到手机上 </p>
+									<p class="menu_msg mini_tips warn" id="menustatus_3" style="display:none">待发布(还有13小时)</p>
+									<p class="menu_msg mini_tips success" style="display:none" id="menustatus_1">菜单正在使用中</p>
+								</div>
+								<div class="tool_bar">
+									<a class="btn btn-block btn-info" id="pubBt" href="javascript:;">保存并发布</a>
+								</div>
+							</div>
+							
+						</div>
+					</section>
+					
+					
+				</div>
+			</div>
+		</div>
+		
+		<div id="gridSystemModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="gridSystemModalLabel">添加菜单</h4>
+					</div>
+					<div class="modal-body">
+						<div class="dialog_bd">
+							<div class="simple_dialog_content">
+								<div class="frm_control_group">
+									<label class="frm_label">添加一级菜单</label>
+									<span class="frm_input_box"><input type="text" class="frm_input" id="popInput" value=""></span>
+								</div>
+								<div class="js_verifycode"></div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-primary" id="btn_save">保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="posturl" value="{:U('WechatMenu/edit')}"/>
+		<input type="hidden" value="{:get_url(1)}" id="get_url" />
+		<input type="hidden" value="{$keys_id}" id="keys_id"/>
+		
+		<script>
+			var keys_id = $('#keys_id').val();
+			if(keys_id != ''){
+				$('#keys').val(keys_id);
+			}
+			$("#keys").selectOrDie({customClass: "custom", customID:"custom"});
+			
+			$('#keys').change(function(){
+				var this_val = $(this).find('option:selected').val();
+				window.location.href = $('#get_url').val() +'/{:C("UPS_PRE")}/WechatMenu/index/keys_id/' + this_val;
+			});
+			
+			var _json = <?php echo $menus;?>;
+			
+			//保存当前数据的数组
+			var data = [];
+			
+			//初始化菜单
+			$.each(_json.button, function(t , i){
+				var n = {
+					type : i.type,
+					name: i.name,
+					value : i.value,
+					url : i.url,
+					key : i.key,
+					id: "menu_" + t
+				};
+				var content = '<dl class="inner_menu"><dt class="inner_menu_item jslevel1" id="menu_' + t + '"><a href="javascript:void(0);" class="inner_menu_link"><strong>' + i.name + '</strong></a><span class="menu_opr"><i class="fa fa-fw fa-plus js_addSecondMenu"></i></span></dt>';
+				if(i.sub_button.length > 0){
+					var s = [];
+					$.each(i.sub_button, function(e, t){
+						content += '<dd class="inner_menu_item jslevel2" id="subMenu_' + n.id +'_' + e +'"><i class="icon_dot">●</i><a href="javascript:void(0);" class="inner_menu_link" onclick="return false;"><strong>' + t.name + '</strong></a><span class="menu_opr"><a href="javascript:void(0);" class="icon14_common sort_gray jsOrderBt" style="display:none">排序</a></span></dd>';
+						s.push({
+							type: t.type,
+							name: t.name,
+							value : t.value,
+							url : t.url,
+							key : t.key,
+							id: "subMenu_" + n.id + "_" + e
+						});
+					}), n.subs = s;
+					content += '</dl>';
+				} else {
+					content = content + '</dl>';
+				}
+				$('.menu_mask').before(content);
+				data.push(n);
+			});
+			
+			//添加一级菜单
+			$('.opr_wrp').on('click', '#addBt', function(){
+				var can_add_num = 3 - data.length;
+				if(can_add_num <= 0){
+					$('.bs-example-modal-sm .modal-body').text("最多只能有3个一级菜单!");
+					$('.bs-example-modal-sm').modal();
+					return false;
+				}
+				var title = '添加一级菜单';
+				var label = '还能添加' + can_add_num + '个一级菜单，请输入名称(4个汉字或8个字母以内)';
+				
+				$('#gridSystemModalLabel').text(title);
+				$('#gridSystemModal').find('.frm_label').text(label);
+				$('#popInput').val('');
+				$('#gridSystemModal').modal();
+				$('#btn_save').click(function(){
+					var popInput = $('#popInput').val();
+					if(popInput == ''){
+						return false;
+					}
+					var i = (new Date).getTime() + "_menu_" + data.length;
+					$('.menu_mask').before('<dl class="inner_menu"><dt class="inner_menu_item jslevel1" id="' + i + '"><a href="javascript:void(0);" class="inner_menu_link"><strong>' + popInput + '</strong></a><span class="menu_opr"><i class="fa fa-fw fa-plus js_addSecondMenu"></i></span></dt></dl>');
+					//向data中添加数据
+					var n = {
+						name: popInput,
+						id: i
+					};
+					data.push(n);
+					//关闭
+					$('#gridSystemModal').modal('hide');
+				});
+				//关闭的时候取消事件监听
+				$('#gridSystemModal').on('hidden.bs.modal', function (e) {
+					$('#btn_save').unbind('click');
+				});
+			}), $('#orderBt').on('click', function(){
+				$('.bs-example-modal-sm .modal-body').text("不能排序!");
+				$('.bs-example-modal-sm').modal();
+			});
+			
+			//添加二级菜单
+			function l(){
+				var parent = $('#menuList').find('.selected').parent();
+				var id = $('#menuList').find('.selected').attr('id');
+				var child_num = 0;
+				var this_data = '';
+				//判断是否有子节点
+				$.each(data, function(k, v){
+					if(id == v.id){
+						this_data = v;
+						child_num = typeof v.subs == "undefined" ? 0 : v.subs.length;
+					}
+				});
+				if(typeof this_data.type != 'undefined'){
+					if(confirm('使用二级菜单后，当前编辑的消息将会被清除。确定使用二级菜单?')){
+						//删除当前父菜单中的数据，然后显示添加页面
+						$.each(data, function(t, n){
+							if(n.id == id){
+								delete data[t]['url'];
+								delete data[t]['value'];
+								delete data[t]['type'];
+								delete data[t]['key'];
+							}
+						});
+						$('.jsMain').hide();
+						$('#index .action_tips').text("请设置“" + $('#'+id).find('strong').text() + "”菜单的内容");
+						$('#index .initialCreate').show();
+						$('#index').show();
+						return false;
+					} else {
+						return false;
+					}
+				}
+				
+				var can_num = 5 - child_num;
+				if(can_num <= 0){
+					$('.bs-example-modal-sm .modal-body').text("最多只能有5个二级菜单!");
+					$('.bs-example-modal-sm').modal();
+					return false;
+				}
+				var title = '添加二级菜单';
+				var label = '还能添加' + can_num + '个二级菜单，请输入名称(8个汉字或16个字母以内)';
+				$('#gridSystemModalLabel').text(title);
+				$('#gridSystemModal').find('.frm_label').text(label);
+				$('#popInput').val('');
+				$('#gridSystemModal').modal();
+				//保存修改
+				$('#btn_save').on('click', function(){
+					var popInput = $('#popInput').val();
+					if(popInput == ''){
+						return false;
+					}
+					var n = (new Date).getTime() + "_subMenu" + id + "_" + child_num;
+					parent.append('<dd class="inner_menu_item jslevel2" id="'+ n +'"><i class="icon_dot">●</i><a href="javascript:void(0);" class="inner_menu_link" onclick="return false;"><strong>' + popInput + '</strong></a><span class="menu_opr"><a href="javascript:void(0);" class="icon14_common sort_gray jsOrderBt" style="display:none">排序</a></span></dd>');
+					//需要向数组中添加子菜单
+					var arr = {
+						'id': n,
+						'type' : '',
+						'name' : popInput,
+						'value' : '',
+						'url' : '',
+						'key' : '',
+					};
+					$.each(data, function(t, n){
+						if(n.id == id){
+							if(typeof data[t]['subs'] == 'undefined'){
+								data[t]['subs'] = [];
+								data[t]['subs'].push(arr);
+							} else {
+								data[t]['subs'].push(arr);
+							}
+						}
+					});
+					//关闭
+					$('#gridSystemModal').modal('hide');
+				});
+				//关闭的时候取消事件监听
+				$('#gridSystemModal').on('hidden.bs.modal', function (e) {
+					$('#btn_save').unbind('click');
+				});
+				
+			};
+			$('.initialCreate').on('click', l);
+			$('#menuList').on("click", ".js_addSecondMenu", function(){
+				$(this).parents('dt').addClass('selected');
+				l();
+			});
+			
+			//菜单选中事件
+			$('#menuList').on('click', '.inner_menu_item', function(){
+				$('.inner_menu_item').removeClass('selected');
+				$(this).addClass('selected');
+				var id = $(this).attr('id');
+				
+				var info = '';
+				$.each(data, function(t, n){
+					if(n.id == id){
+						info = data[t];
+						return true;
+					}
+					if( typeof n.subs != "undefined" ){
+						$.each(n.subs, function(kt, kn){
+							if(kn.id == id){
+								info = data[t]['subs'][kt];
+								return true;
+							}
+						});
+					}
+				});
+
+				$('.jsMain').hide();
+				var strong_val = $(this).find('strong').text();
+				if($('#' + id).hasClass("jslevel1")){
+					strong_val = '一级菜单 : ' + strong_val; 
+					if(typeof info.type != 'undefined' && info.type == 'view'){
+						$('#viewDiv').text(info.url);
+						//链接类型或者消息类型
+						//订阅者点击该子菜单会收到以下消息
+						$('#view .action_tips').text('订阅者点击该子菜单会跳到以下链接');
+						$('#view').show();
+					} else if(typeof info.type != 'undefined' && info.type == 'click'){
+						$('#viewDiv').text(info.key);
+						$('#view .action_tips').text('订阅者点击该子菜单会收到该key对应的消息');
+						$('#view').show();
+					} else if(typeof info.subs != 'undefined' && info.subs.length != 0){
+						if(info.subs.length < 5){
+							$('#none .action_tips').html("已为“" + $('#'+id).find('strong').text() + "”添加了二级菜单，无法设置其他内容。<br/>你还可以添加" + (5-info.subs.length) + "个二级菜单");
+							$('#none').show();
+							$('#none .initialCreate').show();
+						} else {
+							$('#none .action_tips').text("你已添加满5个二级菜单");
+							$('#none .initialCreate').hide();
+							$('#none').show();
+						}
+					} else {
+						$('#index .action_tips').text("请设置“" + $('#'+id).find('strong').text() + "”菜单的内容");
+						$('#index .initialCreate').show();
+						$('#index').show();
+					}
+				} else if($('#' + id).hasClass("jslevel2")) {
+					strong_val = '二级菜单 : ' + strong_val; 
+					//二级菜单不存在子菜单的问题
+					if(typeof info.type != 'undefined' && info.type == 'view'){
+						$('#viewDiv').text(info.url);
+						$('#view .action_tips').text('订阅者点击该子菜单会跳到以下链接');
+						$('#view').show();
+					} else if(typeof info.type != 'undefined' && info.type == 'click'){
+						$('#viewDiv').text(info.key);
+						$('#view .action_tips').text('订阅者点击该子菜单会收到该key对应的消息');
+						$('#view').show();
+					} else {
+						$('#index .action_tips').text("请设置“" + $('#'+id).find('strong').text() + "”菜单的内容");
+						$('#index .initialCreate').hide();
+						$('#index').show();
+					}
+				}
+				$('#js_second_title_bar').show();
+				$('#js_second_title_bar').find('h4').text(strong_val);
+			});
+			
+			//修改菜单
+			$('#jsChangeBt').on('click', function(){
+				var id = $('#menuList').find('.selected').attr('id');
+				var title = '';
+				var strong_val = '';
+				var label = '';
+				if( $('#' + id).hasClass("jslevel1") ){
+					title = '修改一级菜单名称';
+					strong_val = '一级菜单 : ';
+					label = '不多于4个汉字或8个字母';
+				} else if( $('#' + id).hasClass("jslevel2") ){
+					title = '修改二级菜单名称';
+					strong_val = '二级菜单 : ';
+					label = '8个汉字或16个字母以内';
+				}
+			 
+				$('#gridSystemModalLabel').text( title );
+				$('#gridSystemModal').find('.frm_label').text(label);
+				$('#popInput').val($('#'+id).find('strong').text());
+				
+				$('#gridSystemModal').modal();
+				$('#btn_save').click(function(){
+					var popInput = $('#popInput').val();
+					if(popInput == ''){
+						return false;
+					}
+					$('#'+id).find('strong').text(popInput);
+					$('#js_second_title_bar').find('h4').text(strong_val + popInput);
+					//需要修改数组中的数据
+					$.each(data, function(t, n){
+						if(n.id == id){
+							data[t]['name'] = popInput;
+							return true;
+						}
+						if( typeof n.subs != "undefined" ){
+							$.each(n.subs, function(kt, kn){
+								if(kn.id == id){
+									data[t]['subs'][kt]['name'] = popInput;
+									return true;
+								}
+							});
+						}
+					});
+					
+					//关闭
+					$('#gridSystemModal').modal('hide');
+				});
+				//关闭时取消事件监听
+				$('#gridSystemModal').on('hidden.bs.modal', function (e) {
+					$('#btn_save').unbind('click');
+				});
+			});
+			//删除菜单
+			$('#jsDelBt').click(function(){
+				if(confirm("确认删除?")){
+					var id = $('#menuList').find('.selected').attr('id');
+					if( $('#' + id).hasClass("jslevel1") ){
+						$('#'+id).parent().remove();
+					} else if($('#' + id).hasClass("jslevel2")) {
+						$('#'+id).remove();
+					}
+					//需要删除数组中的数据
+					$.each(data, function(t, n){
+						if( n.id == id ){
+							data.splice(t, 1);
+							return false;
+						}
+						if( typeof n.subs != "undefined" ){
+							$.each(n.subs, function(kt, kn){
+								if(kn.id == id){
+									data[t]['subs'].splice(kt, 1);
+								}
+							});
+							if(n.subs == ''){
+								//如果没有了子节点则删除
+								delete n.subs;
+							} 
+						}
+					});
+					$('.jsMain').hide();
+					$('#none .initialCreate').hide();
+					$('#none .action_tips').html("你可以点击左侧菜单或添加一个新菜单，然后设置菜单内容");
+					$('#none').show();
+				}
+			});
+			
+			//发送消息
+			$('#sendMsg').on('click', function(){
+				$(".jsMain").hide(), 
+				$("#urlFail").hide(), 
+				$('#editDiv').text(''),
+				$('#edit').show();
+			});
+			
+			//保存消息
+			$('#editDiv').blur(function(){
+				//获取当前选中的菜单id
+				var id = $('#menuList').find('.selected').attr('id');
+				var key = $('#editDiv').text();
+				if(key == ''){
+					return false;
+				}
+
+				$.each(data, function(t, n){
+					if(n.id == id){
+						if(typeof n.subs != 'undefined' && n.subs.length != 0){
+							return false;
+						}
+						data[t]['type'] = 'click';
+						data[t]['value'] = '';
+						data[t]['url'] = '';
+						data[t]['key'] = key;
+						return false;
+					}
+					if( typeof n.subs != "undefined" ){
+						$.each(n.subs, function(kt, kn){
+							if(kn.id == id){
+								data[t]['subs'][kt]['type'] = 'click';
+								data[t]['subs'][kt]['value'] = '';
+								data[t]['subs'][kt]['url'] = '';
+								data[t]['subs'][kt]['key'] = key;
+								return true;
+							}
+						});
+					}
+				});
+			});
+			
+			//跳转到网页
+			$('#goPage').on('click', function(){
+				$(".jsMain").hide(), 
+				$("#urlFail").hide(), 
+				$('#urlText').val(''),
+				$('#url').show();
+			});
+			
+			//保存url
+			$('#urlText').on('blur', function(){
+				var id = $('#menuList').find('.selected').attr('id');
+				var url = $('#urlText').val();
+				//数据写入到数组
+				if(url == ''){
+					return false;
+				}
+				if(/^(http|https):\/\/.*$/.test(url)){
+					$('#url .frm_msg').hide();
+				} else {
+					$('#url .frm_msg').show();
+					return false;
+				}
+
+				$.each(data, function(t, n){
+					if(n.id == id){
+						if(typeof n.subs != 'undefined' && n.subs.length != 0){
+							return false;
+						}
+						data[t]['type'] = 'view';
+						data[t]['value'] = '';
+						data[t]['url'] = url;
+						data[t]['key'] = '';
+						return false;
+					}
+					if( typeof n.subs != "undefined" ){
+						$.each(n.subs, function(kt, kn){
+							if(kn.id == id){
+								data[t]['subs'][kt]['type'] = 'view';
+								data[t]['subs'][kt]['value'] = '';
+								data[t]['subs'][kt]['url'] = url;
+								data[t]['subs'][kt]['key'] = '';
+								return true;
+							}
+						});
+					}
+				});
+			});
+			
+			//修改
+			$('#changeBt').on('click', function(){
+				var id = $('#menuList').find('.selected').attr('id');
+				var this_data = '';
+				$.each(data, function(t, n){
+					if(n.id == id){
+						this_data = n;
+						return true;;
+					}
+					if( typeof n.subs != "undefined" ){
+						$.each(n.subs, function(kt, kn){
+							if(kn.id == id){
+								this_data = kn;
+								return true;
+							}
+						});
+					}
+				});
+				if(this_data.type == 'click'){
+					$(".jsMain").hide(), 
+					$("#urlFail").hide(), 
+					$('#editDiv').text(this_data.key),
+					$('#edit').show();
+				} else if(this_data.type == 'view'){
+					$(".jsMain").hide(), 
+					$("#urlFail").hide(), 
+					$('#urlText').val(this_data.url),
+					$('#url').show();
+				}
+			});
+			
+			//重设菜单内容
+			$('.resetAction').on('click', function(){
+				if(confirm('重设会导致当前菜单内容被清空，确定重设？')){
+					//获取当前选中菜单的id
+					var id = $('#menuList').find('.selected').attr('id');
+					//清除当前菜单的内容,删除act和type
+					$.each(data, function(t, n){
+						if(n.id == id){
+							delete n.type;
+							delete n.url;
+							delete n.value;
+							delete n.key;
+							return true;
+						}
+						if( typeof n.subs != "undefined" ){
+							$.each(n.subs, function(kt, kn){
+								if(kn.id == id){
+									delete kn.type;
+									delete n.url;
+									delete n.value;
+									delete n.key;
+									return true;
+								}
+							});
+						}
+					});
+					$(".jsMain").hide(), 
+					$('#index .action_tips').text("请设置“" + $('#'+id).find('strong').text() + "”菜单的内容");
+					$('#index .initialCreate').hide();
+					$('#index').show();
+				}
+			});
+			
+			//arrToJson();
+			//将数组转换为对象，再格式化为json字符串，然后上传上去
+			function arrToJson(){
+				//对data进行处理，删除空的 url, value, key
+				$.each(data,function(t, n){
+					if(typeof n.url == 'undefined' || n.url == ''){
+						delete data[t]['url'];
+					}
+					if(typeof n.value == 'undefined' || n.value == ''){
+						delete data[t]['value'];
+					}
+					if(typeof n.key == 'undefined' || n.key == ''){
+						delete data[t]['key'];
+					}
+					if(typeof n.type == 'undefined' || n.type == ''){
+						delete data[t]['type'];
+					}
+					delete data[t]['id'];
+					if(typeof n.subs != 'undefined' && n.subs != ''){
+						data[t]['sub_button'] = data[t]['subs'];
+						delete data[t]['subs'];
+						$.each(data[t]['sub_button'], function(st, sn){
+							delete data[t]['sub_button'][st]['id'];
+							if(typeof sn.url == 'undefined' || sn.url == ''){
+								delete data[t]['sub_button'][st]['url'];
+							}
+							if(typeof sn.value == 'undefined' || sn.value == ''){
+								delete data[t]['sub_button'][st]['value'];
+							}
+							if(typeof sn.key == 'undefined' || sn.key == ''){
+								delete data[t]['sub_button'][st]['key'];
+							}
+							if(typeof sn.type == 'undefined' || sn.type == ''){
+								delete data[t]['sub_button'][st]['type'];
+							}
+						});
+					} else {
+						delete data[t]['subs'];
+					}
+				});
+				//转换对象为json字符串数据
+				return JSON.stringify({
+					button: data
+				});
+			}
+			
+			$('#pubBt').on('click', function(){
+				var d = arrToJson();
+				//console.log(d);
+				//这里post数据
+				var posturl = $('#posturl').val() + '/keys_id/' + $('#keys_id').val();
+				$.post(posturl, {'data': d}, function(re){
+					if(re.errcode == 0){
+						$('.bs-example-modal-sm .modal-body').text("编辑成功!");
+						$('.bs-example-modal-sm').modal();
+						$('.bs-example-modal-sm').on('hidden.bs.modal', function (e) {
+							if(re.errcode == 0){
+								location.reload();
+							}
+						});
+						return false;
+					} else {
+						$('.bs-example-modal-sm .modal-body').text("编辑失败!(" + re.errmsg + ")");
+						$('.bs-example-modal-sm').modal();
+						//console.log(re);
+						return false;
+					}
+					
+				});
+			});
+		</script>
+	</div>
+
+<include file="Public:footer" />

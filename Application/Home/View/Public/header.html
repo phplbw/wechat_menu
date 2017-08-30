@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>又拍云在线文件管理 | Dashboard</title>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <link href="__PUBLIC__/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="__PUBLIC__/libs/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="__PUBLIC__/libs/select2/select2.min.css" rel="stylesheet" />
+        <link href="__PUBLIC__/libs/jQueryUI/jquery-ui.min.css" rel="stylesheet">
+        <link href="__PUBLIC__/css/style.css" rel="stylesheet"/>
+        <script src="__PUBLIC__/libs/jQuery/jQuery-2.1.4.min.js"></script>
+        <script src="__PUBLIC__/libs/jQueryUI/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="__PUBLIC__/libs/select2/select2.full.min.js"></script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav metismenu" id="side-menu">
+                        <li class="nav-header">
+                            <div class="dropdown profile-element"> 
+                                <span>
+                                    <img alt="image" class="img-circle" style="width:48px;" src="__PUBLIC__/img/ic_launcher.png" />
+                                </span>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
+                                    <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{$nickName}</strong>
+                                 </span></span></a>
+                            </div>
+                            <div class="logo-element">
+                                IN+
+                            </div>
+                        </li>
+                        <volist name="arr_menu_list" id="menu_val">
+                        <li>
+                            <a href="javascript:;"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">{$menu_val.name}</span><span class="fa arrow"></span></a>
+                            <notempty name="menu_val.childarr">
+                            <ul class="nav nav-second-level collapse">
+                                <volist name="menu_val.childarr" id="child_val">
+                                    <li><a href="{:U($child_val['mod'].'/'.$child_val['act'])}">{$child_val.name}</a></li>
+                                </volist>
+                            </ul>
+                            </notempty>
+                        </li>
+                        </volist>
+                    </ul>
+                </div>
+            </nav>
+
+            <div id="page-wrapper" class="gray-bg dashbard-1">
+                <div class="row border-bottom">
+                    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                        <div class="navbar-header">
+                            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="javascript:;"><i class="fa fa-bars"></i> </a>
+                        </div>
+                        <ul class="nav navbar-top-links navbar-right">
+                            <li>
+                                <span class="m-r-sm text-muted welcome-message">又拍云文件管理</span>
+                            </li>
+                            <li>
+                                <a href="{:U('Public/loginout')}">
+                                    <i class="fa fa-sign-out"></i> 退出
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>

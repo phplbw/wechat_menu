@@ -1,0 +1,48 @@
+<include file="Public:header" />
+
+<div class="wrapper wrapper-content animated fadeInRight" style="min-height: 800px;">
+    <div class="row">
+        <div class="ibox-title ibox-title-padding">
+            <h5 class="line-h34">编辑权限组</h5>
+        </div>
+        <div class="ibox-content">
+            <section class="content" style="width:500px;">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="rolename">权限组名</label>
+                        <input type="text" class="form-control" id="rolename" value="{$info.name}"/>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="submit" id="submit" class="btn btn-primary">提交</button>
+                </div>
+                <input type="hidden" id="roleid" value="{$info.id}"/>
+                <input type="hidden" id="posturl" value="{:U('SysRole/editRole')}"/>
+            </section>
+            <script>
+            $('#submit').click(function(){
+                var rolename = $('#rolename').val();
+                var posturl = $('#posturl').val();
+                var roleid = $('#roleid').val();
+                if(rolename == ''){
+                    $('.bs-example-modal-sm .modal-body').text('请填写权限组名称');
+                    $('.bs-example-modal-sm').modal();
+                    return false;
+                }
+                
+                $.post(posturl, {'id': roleid, 'rolename':rolename}, function(data){
+                    $('.bs-example-modal-sm .modal-body').text(data.msg);
+                    $('.bs-example-modal-sm').modal();
+                    if(data.result == true){
+                        $('.bs-example-modal-sm').on('hidden.bs.modal', function (e) {
+                            location.reload();
+                        })
+                    }
+                });
+            });
+            </script>
+        </div>
+    </div>
+</div>
+
+<include file="Public:footer" />

@@ -1,0 +1,55 @@
+<include file="Public:header" />
+
+<div class="wrapper wrapper-content animated fadeInRight" style="min-height: 800px;">
+    <div class="row">
+        <div class="ibox-title ibox-title-padding">
+            <h5 class="line-h34">管理员管理</h5>
+            <div class="ibox-tools">
+                <a type="button" class="btn btn-w-m btn-primary" href="{:U('SysAdmin/addUser')}" target="_blank">添加</a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <section class="content">
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th style="width: 40px">ID</th>
+                                <th>用户名</th>
+                                <th>权限组</th>
+                                <th style="width: 120px">操作</th>
+                            </tr>
+                            <volist name="list" id="val">
+                            <tr>
+                                <td>{$val.id}</td>
+                                <td>{$val.uname}</td>
+                                <td>{$val.rolename}</td>
+                                <td><a href="{:U('SysAdmin/editUser', array('id'=>$val['id']))}">编辑</a>&nbsp;|&nbsp;<a href="javascript:delUser({$val.id});">删除</a></td>
+                            </tr>
+                            </volist>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer clearfix">
+                    {$page}
+                </div>
+                <input type="hidden" id="posturl" value="{:U('SysAdmin/delUser')}"/>
+            </section>
+            <script>
+            function delUser(id){
+                if(confirm("是否删除?")){
+                    var posturl = $('#posturl').val();
+                    $.post(posturl, {'id' : id}, function(data){
+                        alert(data.msg);
+                        if (data.result == true){
+                            location.reload();
+                        }
+                    });
+                }
+            }
+            </script>
+        </div>
+    </div>
+</div>
+
+<include file="Public:footer" />

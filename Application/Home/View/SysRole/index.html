@@ -1,0 +1,56 @@
+<include file="Public:header" />
+
+<div class="wrapper wrapper-content animated fadeInRight" style="min-height: 800px;">
+    <div class="row">
+        <div class="ibox-title ibox-title-padding">
+            <h5 class="line-h34">权限组管理</h5>
+            <div class="ibox-tools">
+                <a type="button" class="btn btn-w-m btn-primary" href="{:U('SysRole/addRole')}" target="_blank">添加</a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <section class="content">
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th style="width: 40px">ID</th>
+                                <th>权限组名称</th>
+                                <th style="width: 180px">操作</th>
+                            </tr>
+                            <volist name="list" id="val">
+                            <tr>
+                                <td>{$val.id}</td>
+                                <td>{$val.name}</td>
+                                <td><a href="{:U('SysRole/editRole', array('id' => $val['id']))}">编辑</a>&nbsp;|&nbsp;<a href="javascript:delRole({$val.id})">删除</a>&nbsp;|&nbsp;<a href="{:U('SysRole/bindmenu', array('id' => $val['id']))}">绑定菜单</a></td>
+                            </tr>
+                            </volist>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer clearfix">
+                    {$page}
+                </div>
+                <input type="hidden" id="posturl" value="{:U('SysRole/delRole')}"/>
+            </section>
+            <script>
+            function delRole(id){
+                if(confirm("是否删除?")){
+                    var posturl = $('#posturl').val();
+                    $.post(posturl, {'id' : id}, function(data){
+                        $('.bs-example-modal-sm .modal-body').text(data.msg);
+                        $('.bs-example-modal-sm').modal();
+                        if(data.result == true){
+                            $('.bs-example-modal-sm').on('hidden.bs.modal', function (e) {
+                                location.reload();
+                            });
+                        }
+                    });
+                }
+            }
+            </script>
+        </div>
+    </div>
+</div>
+
+<include file="Public:footer" />

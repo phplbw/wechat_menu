@@ -1,0 +1,123 @@
+body{
+    background-repeat:no-repeat;
+    background-position:  center top;
+    background-size:cover;
+    position: relative;
+    -webkit-user-select:none;
+}
+
+.main-container{
+    height: 100%;
+    position: relative;
+}
+.logo-box{
+    width: 27%;
+    margin: 0px auto 20px auto;
+    padding-top: 20px;
+}
+.logo-box img{
+    width: 100%;
+}
+.img-box{
+    position: absolute;
+    width: 100%;
+    z-index: 9;
+    left: 0px;
+    bottom: 0px;
+    text-align: center;
+    font-size: 0px;
+}
+.img-box img{
+    width: 100%;
+}
+.text-box img{
+    width: 100%;
+}
+
+.input-container,.success-box{
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 10;
+    text-align: center;
+    color: #fff;
+    font-size: 1.4rem;
+    background-size: 100% auto;
+}
+
+.input-container h3{
+    font-weight: normal;
+}
+.input-container h3 span{
+    color: #ffed44;
+}
+.input-box{
+    background:#fff;
+    width: 68%;
+    margin: 10px auto;
+    padding: 4px 6px;
+    border-radius: 4px;
+}
+.input-box input{
+    border: 0px;
+    height: 32px;
+    line-height: 32px;
+    width: 100%;
+    font-size: 1.4rem;
+    text-align: center;
+}
+.btn-box{
+    border-radius: 4px;
+    width: 68%;
+    padding: 4px 6px;
+    margin: 10px auto;
+    background:#ffed44;
+    display: block;
+    border: 0px;
+    height: 32px;
+    line-height: 32px;
+    color: #1f1f1f;
+}
+.btn-box:active{
+    background:#F7E21E;
+}
+
+.ui-fixtip {
+    position: fixed;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 999;
+    font-size: 1.4rem;
+}
+.ui-fixtip span {
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(0,0,0,.9);
+    color: #fff;
+    border-radius: 2px;
+}
+
+.success-box{
+    display: none;
+}
+
+.success-box .success-status span{
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowRTUwMEFCMjBBMzFFNTExOTlFREYzOTA0ODI2RkUzMyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowNjczOTUyQjMxQ0UxMUU1ODU5RERBNUUwMTQ0QkZBOCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowNjczOTUyQTMxQ0UxMUU1ODU5RERBNUUwMTQ0QkZBOCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjMzQTg2MDVGQjEzMUU1MTE5OUVERjM5MDQ4MjZGRTMzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjBFNTAwQUIyMEEzMUU1MTE5OUVERjM5MDQ4MjZGRTMzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+F0cxXgAAAo1JREFUeNq0l09LG0EYxmMtUjUhPSg59SDZXCqIaIVWg1Q8+efu3c/Q9tIvYEr7CTRtP0BvbUN78h+oh4BGlPYQ9CrmYiEWKjbT5y3PwLhm3dndycKPsJmZ93l2Z3bmfbuUUinLKw0WwAwYBUMgy7Zf4BQcgHXwFTStooqBEDywCprK/mpyjBcW/67GB2AF/GHQFtgEr8AUyIEekuN/L9mnxTEytsRYkQzkwT6D/AVlm6fxvbUyxyrG8mwNjIEzDjwBExGE/UwwhmLMsTAD4vKcA9bBQAJxzQCnRTG2F2SgFxyw43fObcoREusbY9eodctAiR1+goxDcU2asRW1bhiQRXcFrhPOuc2auKaWZxpYpbNyB8U1a9Ra0wYy3DhaET+1uHjUEs3MPWyG86AfbIF6ys01CKpgu01bnVqiOS8GZtlQcSgu58E46A3oo7VmxcAIb3Ycig+DYzAX0G+XvyMyJw0uilzAnG2DXZANmdtBcMRYR7wP6ptjv0bKOGyCNp4q2z+DbgfiemP6f1jZGMgb2/NbB+LCfdNA2BQI04bR5YTit6ZgjzfFkEHLxhk/nUBceM5xe/IVHHJFPgtZ4e/BO9ADPoENY7VLmtaI8LUU+XsobpboZsPCeTcXo4r55Bp96i7F2Yqz/CyrMcU9il+KdtsDosN88B9G2pU+jp90ULxoHMeFoITkB5MH1+IydXVqvAlKyWrsUOlASlYxUrI+m6S04uhNpI188M6ktF1aLtMxnkD8KWNYp+Xmm6j5CpN8BOHH4KNRIdWiFCZmaVbiitVGJL9/ASaN0kzWziNuz6/BlrFRXcUtzUwKTFovIxSnv/mdF8Lid0Uszxd95flDtl34yvMvtuX5PwEGAAvVmJCRM6C3AAAAAElFTkSuQmCC);
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left:25px;
+    background-size: auto 100%;
+    font-size: 1.6rem;
+}
+.success-box .s-money{
+    margin: 10px auto;
+}
+.success-box .s-money span{
+    font-size: 4rem;
+}
+.success-box .s-text{
+    font-size: 1.2rem;
+}
+
